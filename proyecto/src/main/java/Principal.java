@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Principal {
 
-
+    // Funciones de interacción con el programa
     public static int mostrarOpcionesInicio(){
         System.out.println("¿Qué desea hacer?\n" +
                 "\t1. Iniciar Sesión\n" +
@@ -58,9 +58,26 @@ public class Principal {
 
     public static void main(String[] args) {
         System.out.println("Ejecución iniciada");
+        /**
+        // Probar tda Fecha
+        Fecha fechaPrueba = new Fecha(6,1,2022);
+        fechaPrueba.formated = fechaPrueba.formatearFecha(fechaPrueba);
+        fechaPrueba.printFecha();
+         */
+
+        // Probar tda Acceso
+        /*
+        Acceso accesoPrueba = new Acceso("Daniel", 'w');
+        System.out.println(accesoPrueba.toString());
+
+         */
+        // Probar tda Documento
+
+
 
         // Crear tda sistema
 
+        /*
         boolean encendido = true;
         while(encendido){
             int respuesta = mostrarOpcionesInicio();
@@ -81,6 +98,8 @@ public class Principal {
             }
 
         }
+        */
+
 
         System.out.println("Ejecución finalizada");
     }

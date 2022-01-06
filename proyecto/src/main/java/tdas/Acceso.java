@@ -27,9 +27,9 @@ public class Acceso {
 
     // Otros
     // Convertir a string el acceso
-    public String toString(Acceso x){
+    public String toString(){
         String salida = "";
-        salida = salida + x.nombreUsuario + " - " + x.tipoAcceso;
+        salida = salida + this.nombreUsuario + " - " + this.tipoAcceso;
         return salida;
     }
 }

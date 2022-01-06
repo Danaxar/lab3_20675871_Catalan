@@ -31,7 +31,12 @@ public class Fecha {
     }
 
     // setter
-    public void settFormated(){
+    /*public void settFormated(){
         this.formated = formatearFecha(this);
+    }*/
+
+    // Otros
+    public void printFecha(){
+        System.out.println(this.formated);
     }
 }
