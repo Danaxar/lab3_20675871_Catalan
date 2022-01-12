@@ -2,10 +2,10 @@ package tdas;
 
 public class Fecha {
     // Atributos
-    public int day;
-    public int month;
-    public int year;
-    public String formated;
+    private int day;
+    private int month;
+    private int year;
+    private String formated;
 
     // Metodos
     // Constructor
@@ -16,11 +16,13 @@ public class Fecha {
     }
 
     // Formatear la fecha
-    public String formatearFecha(Fecha x){
+    public String formatearFecha(){
         String salida = "";
-        salida = salida + Integer.toString(x.day) + " - ";
-        salida = salida + Integer.toString(x.month) + " - ";
-        salida = salida + Integer.toString(x.year) + ".";
+        salida = salida.concat(String.valueOf(this.day));
+        salida = salida.concat(" - ");
+        salida = salida.concat(String.valueOf(this.month));
+        salida = salida.concat(" - ");
+        salida = salida.concat(String.valueOf(this.year));
         return salida;
     }
 

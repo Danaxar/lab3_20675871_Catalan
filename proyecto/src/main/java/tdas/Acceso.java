@@ -1,8 +1,8 @@
 package tdas;
 
 public class Acceso {
-    public String nombreUsuario;
-    public char tipoAcceso;
+    private String nombreUsuario;
+    private char tipoAcceso;
 
     // Constructor
     public Acceso(String n, char t){

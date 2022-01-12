@@ -57,27 +57,10 @@ public class Principal {
 
 
     public static void main(String[] args) {
-        System.out.println("Ejecución iniciada");
-        /**
-        // Probar tda Fecha
-        Fecha fechaPrueba = new Fecha(6,1,2022);
-        fechaPrueba.formated = fechaPrueba.formatearFecha(fechaPrueba);
-        fechaPrueba.printFecha();
-         */
-
-        // Probar tda Acceso
-        /*
-        Acceso accesoPrueba = new Acceso("Daniel", 'w');
-        System.out.println(accesoPrueba.toString());
-
-         */
-        // Probar tda Documento
-
-
-
+        System.out.println("Ejecución iniciada!!!");
         // Crear tda sistema
 
-        /*
+
         boolean encendido = true;
         while(encendido){
             int respuesta = mostrarOpcionesInicio();
@@ -87,6 +70,19 @@ public class Principal {
                 int opcionSistema = mostrarOpcionesSistema();
 
                 switch(opcionSistema){
+
+                    // Crear un nuevo documento
+                    case 1:
+                        break;
+
+                    // Compartir un documento
+                    // Agregar contenido a un documento
+                    // Restaurar verseión de un documento
+                    // Reevocar acceso a un documento
+                    // Buscar en los documentos
+                    // Visualizar documentos
+                    // Cerrar sesión
+                    // Cerrar el programa
                     case 9:
                         encendido = false;
                 }
@@ -98,7 +94,7 @@ public class Principal {
             }
 
         }
-        */
+
 
 
         System.out.println("Ejecución finalizada");

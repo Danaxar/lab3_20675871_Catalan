@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class Documento {
     // Atributos
-    public int id;
-    public String nombre;
+    private int id;
+    private String nombre;
     private String contenido;
-    public Fecha fechaCreacion;
-    public Fecha fechaModificacion;
-    public ArrayList<Acceso> listaAccesos;
-    public int versionAnterior;
-    public boolean esVersionActiva;
+    private Fecha fechaCreacion;
+    private Fecha fechaModificacion;
+    private ArrayList<Acceso> listaAccesos;
+    private int versionAnterior;
+    private boolean esVersionActiva;
 
 
     public Documento(int id, String nombre, String contenido, Fecha fechaCreacion, Fecha fechaModificacion, ArrayList<Acceso> listaAccesos, int versionAnterior, boolean esVersionActiva) {
@@ -99,4 +99,11 @@ public class Documento {
                 )
     }
     */
+
+    public void printDocumento(){
+        System.out.println("Nombre: " + this.nombre + "ID: " +
+                Integer.toString(this.id) +  "\n\n" + this.contenido +
+                "\n\n" );
+    }
+
 }
