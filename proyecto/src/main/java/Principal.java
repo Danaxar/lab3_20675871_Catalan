@@ -59,38 +59,84 @@ public class Principal {
     public static void main(String[] args) {
         System.out.println("Ejecución iniciada!!!");
         // Crear tda sistema
-
+        Editor sistema = new Editor();
 
         boolean encendido = true;
         while(encendido){
+            // Pantalla externa (Login - Register)
             int respuesta = mostrarOpcionesInicio();
             if(respuesta == 1){
                 // Quiere iniciar sesión
                 System.out.println("Iniciando sesión...");
-                int opcionSistema = mostrarOpcionesSistema();
+                Scanner string2 = new Scanner(System.in);
+                System.out.println("Ingrese el nombre de usuario");
+                String nombreUser = string2.nextLine();
+                System.out.println("Ingrese la password");
+                String passUser = string2.nextLine();
 
-                switch(opcionSistema){
+                sistema.iniciarSesion(nombreUser, passUser);
 
-                    // Crear un nuevo documento
-                    case 1:
-                        break;
 
-                    // Compartir un documento
-                    // Agregar contenido a un documento
-                    // Restaurar verseión de un documento
-                    // Reevocar acceso a un documento
-                    // Buscar en los documentos
-                    // Visualizar documentos
-                    // Cerrar sesión
-                    // Cerrar el programa
-                    case 9:
-                        encendido = false;
+
+                // Una vez iniciada la sesión se puede tener acceso
+                // A las demás opciones -> Otro loop
+                while(sistema.isSesionIniciada()){
+                    int opcionSistema = mostrarOpcionesSistema();
+                    switch(opcionSistema){
+                        // Crear un nuevo documento
+                        case 1:
+                            System.out.println("Creando nuevo documento.");
+                            break;
+
+                        // Compartir un documento
+                        case 2:
+                            System.out.println("Compartiendo documento");
+                            break;
+                        // Agregar contenido a un documento
+                        case 3:
+                            System.out.println("Agregando contenido");
+                            break;
+                        // Restaurar versión de un documento
+                        case 4:
+                            System.out.println("Restaurando versión anterior");
+                            break;
+                        // Reevocar acceso a un documento
+                        case 5:
+                            System.out.println("Revocando accesos del documento");
+                            break;
+                        // Buscar en los documentos
+                        case 6:
+                            System.out.println("Buscando en los documentos");
+                            break;
+                        // Visualizar documentos
+                        case 7:
+                            System.out.println("Visualizando documento");
+                            break;
+                        // Cerrar sesión
+                        case 8:
+                            System.out.println("Cerrando sesión...");
+                            sistema.cerrarSesion();
+                            break;
+                        // Cerrar el programa
+                        case 9:
+                            System.out.println("Cerrando el editor");
+                            encendido = false;
+                            break;
+                    }
                 }
 
                 // Mostrar opciones del sistema
             }else{
                 // Quiere registrarse
                 System.out.println("Registrando en la plataforma...");
+                Scanner string = new Scanner(System.in);
+                System.out.println("Ingrese el nombre de usuario");
+                String nombreUsuario = string.nextLine();
+                System.out.println("Ingrese la password");
+                String password = string.nextLine();
+
+                // Hacer el registro
+                sistema.register(nombreUsuario, password);
             }
 
         }

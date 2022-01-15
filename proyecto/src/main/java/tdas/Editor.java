@@ -3,9 +3,10 @@ package tdas;
 import java.util.ArrayList;
 
 public class Editor {
-    private String nombre;
+    private String nombre;  // Nombre del editor
     private Fecha date;
-    private Usuario sesionActiva;
+    private String sesionActiva;  // Nombre del usuario activo
+    private boolean sesionIniciada;  // True -> sesión iniciada
     private ArrayList<Usuario> listaUsuarios;
 
 
@@ -29,6 +30,13 @@ public class Editor {
         return date;
     }
 
+    public String getSesionActiva() {
+        return sesionActiva;
+    }
+
+    public boolean isSesionIniciada() {
+        return sesionIniciada;
+    }
 
     // Setters
     public void setNombre(String nombre) {
@@ -41,6 +49,10 @@ public class Editor {
 
     public void setDate(Fecha date) {
         this.date = date;
+    }
+
+    public void setSesionIniciada(boolean sesionIniciada) {
+        this.sesionIniciada = sesionIniciada;
     }
 
     // Otros
@@ -57,6 +69,35 @@ public class Editor {
         }
         // Si llega hasta acá entonces el usuario no existe
         return false;
+    }
+
+    public Usuario buscarUsuario(String nombre){
+        int n = this.listaUsuarios.size();
+        for(int i = 0; i < n; i++){
+            Usuario actual = this.listaUsuarios.get(i);
+            // Si los nombre son iguales, retornar true
+            if(actual.getNombre().equals(nombre)){
+                return actual;
+            }
+        }
+        // Si llega hasta acá entonces el usuario no existe
+        return null;
+    }
+
+    // Iniciar sesión
+    public void iniciarSesion(String nombre, String pass){
+        Usuario encontrado = this.buscarUsuario(nombre);
+        if(encontrado != null && encontrado.getPassword().equals(pass)){
+            this.sesionActiva = nombre;
+            this.sesionIniciada = true;
+        }else{
+            System.out.println("Inicio de sesión fallido");
+        }
+    }
+
+    public void cerrarSesion(){
+        this.sesionActiva = "";
+        this.sesionIniciada = false;
     }
 
     // Buscar el id más alto de usuario
@@ -102,7 +143,7 @@ public class Editor {
         System.out.println(this.nombre + "\n" + "Fecha: ");
         System.out.println(this.date.formatearFecha());
         System.out.println("Sesión Activa: " +
-                this.sesionActiva.getNombre() +
+                this.sesionActiva +
                 "Usuarios registrados: ");
 
         this.printListaUsuarios();

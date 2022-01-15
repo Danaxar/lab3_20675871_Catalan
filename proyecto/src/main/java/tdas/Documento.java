@@ -12,17 +12,23 @@ public class Documento {
     private ArrayList<Acceso> listaAccesos;
     private int versionAnterior;
     private boolean esVersionActiva;
+    private static int contador;
 
 
-    public Documento(int id, String nombre, String contenido, Fecha fechaCreacion, Fecha fechaModificacion, ArrayList<Acceso> listaAccesos, int versionAnterior, boolean esVersionActiva) {
-        this.id = id;
+    // Activar clase documento
+    public void activarClaseDoc(){
+        this.contador = 0;
+    }
+
+    // Crear un documento nuevo
+    public Documento(String nombre, String contenido, Fecha fechaCreacion, String creador) {
+        this.id = this.contador + 1;
         this.nombre = nombre;
         this.contenido = contenido;
         this.fechaCreacion = fechaCreacion;
-        this.fechaModificacion = fechaModificacion;
-        this.listaAccesos = listaAccesos;
-        this.versionAnterior = versionAnterior;
-        this.esVersionActiva = esVersionActiva;
+        this.listaAccesos = new ArrayList<Acceso>(1);
+        this.listaAccesos.add(new Acceso(creador, 'w'));
+        this.esVersionActiva = true;
     }
 
     // Getters

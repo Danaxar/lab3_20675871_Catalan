@@ -70,4 +70,6 @@ public class Usuario {
             actual.printDocumento();
         }
     }
+
+
 }
