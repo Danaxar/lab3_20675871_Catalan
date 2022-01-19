@@ -7,15 +7,15 @@ public class Principal {
 
     // Funciones de interacción con el programa
     public static int mostrarOpcionesInicio(){
-        System.out.println("¿Qué desea hacer?\n" +
-                "\t1. Iniciar Sesión\n" +
+        System.out.println("¿Que desea hacer?\n" +
+                "\t1. Iniciar Sesion\n" +
                 "\t2. Registrarse\n");
 
         Scanner respuesta = new Scanner(System.in);
         int respuesta_out = respuesta.nextInt();
         // Si la respuesta no es válida -> pedir entrada de nuevo
         if(respuesta_out != 1 && respuesta_out != 2){
-            System.out.println("Respuesta inválida, por favor ingrese 1. o 2. según su preferencia.");
+            System.out.println("Respuesta invalida, por favor ingrese 1. o 2. según su preferencia.");
             return mostrarOpcionesInicio();
         }
         // Si la entrada es correcta se retorna la elección
@@ -26,15 +26,15 @@ public class Principal {
     public static int mostrarOpcionesSistema() {
         // ###Mostrar por pantalla el nombre de usuario logueado
 
-        System.out.println("¿Qué desea hacer?\n" +
+        System.out.println("¿Que desea hacer?\n" +
                 "\t1. Crear nuevo documento\n" +
                 "\t2. Compartir documento\n" +
                 "\t3. Agregar contenido a un documento\n" +
-                "\t4. Restaurar versión de un documento\n" +
+                "\t4. Restaurar version de un documento\n" +
                 "\t5. Revocar acceso a un documento\n" +
                 "\t6. Buscar en los documentos\n" +
                 "\t7. Visualizar documentos\n" +
-                "\t8. Cerrar sesión\n" +
+                "\t8. Cerrar sesion\n" +
                 "\t9. Cerrar el programa\n"
         );
 
@@ -56,18 +56,29 @@ public class Principal {
 
 
 
-    public static void main(String[] args) {
-        System.out.println("Ejecución iniciada!!!");
+    public static void main(String[] args){
+
+        System.out.println("Ejecucion iniciada");
+        Scanner leerEntrada = new Scanner(System.in);
+
         // Crear tda sistema
         Editor sistema = new Editor();
 
+        System.out.println("Ingrese el nombre del sistema: ");
+        String nombreSistema = leerEntrada.nextLine();
+        sistema.setNombre(nombreSistema);
+
+        System.out.println("Ingrese la fecha del sistema:");
+        sistema.setDate(new Fecha(leerEntrada.nextLine()));
+
         boolean encendido = true;
         while(encendido){
+
             // Pantalla externa (Login - Register)
             int respuesta = mostrarOpcionesInicio();
             if(respuesta == 1){
                 // Quiere iniciar sesión
-                System.out.println("Iniciando sesión...");
+                System.out.println("Iniciando sesion...");
                 Scanner string2 = new Scanner(System.in);
                 System.out.println("Ingrese el nombre de usuario");
                 String nombreUser = string2.nextLine();
@@ -75,8 +86,6 @@ public class Principal {
                 String passUser = string2.nextLine();
 
                 sistema.iniciarSesion(nombreUser, passUser);
-
-
 
                 // Una vez iniciada la sesión se puede tener acceso
                 // A las demás opciones -> Otro loop
@@ -114,7 +123,7 @@ public class Principal {
                             break;
                         // Cerrar sesión
                         case 8:
-                            System.out.println("Cerrando sesión...");
+                            System.out.println("Cerrando sesion...");
                             sistema.cerrarSesion();
                             break;
                         // Cerrar el programa
@@ -143,6 +152,6 @@ public class Principal {
 
 
 
-        System.out.println("Ejecución finalizada");
+        System.out.println("Ejecucion finalizada");
     }
 }

@@ -15,6 +15,18 @@ public class Fecha {
         this.year = y;
     }
 
+    public Fecha(String formateado){
+        String[] partes = formateado.split("-");
+
+        int day = Integer.parseInt(partes[0]);
+        int month = Integer.parseInt(partes[1]);
+        int year = Integer.parseInt(partes[2]);
+
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
+
     // Formatear la fecha
     public String formatearFecha(){
         String salida = "";
@@ -33,9 +45,21 @@ public class Fecha {
     }
 
     // setter
-    /*public void settFormated(){
-        this.formated = formatearFecha(this);
-    }*/
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setFormated(String formated) {
+        this.formated = formated;
+    }
 
     // Otros
     public void printFecha(){

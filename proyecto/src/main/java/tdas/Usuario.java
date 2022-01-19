@@ -8,6 +8,10 @@ public class Usuario {
     private String password;
     private Fecha fechaRegistro;
     private ArrayList<Documento> listaDocumentos;
+    private static int cont;
+
+    // Inicializar clase
+    ////
 
     // Constructor
     public Usuario(String nombre, int id, String password, Fecha fechaRegistro) {

@@ -2,6 +2,11 @@ plugins {
     id 'java'
 }
 
+apply plugin : 'application'
+
+mainClassName = "Principal"
+
+
 group 'org.example'
 version '1.0-SNAPSHOT'
 
@@ -16,4 +21,7 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+run {
+    standardInput = System.in
 }

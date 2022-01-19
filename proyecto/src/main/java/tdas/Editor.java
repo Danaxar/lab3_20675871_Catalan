@@ -14,6 +14,8 @@ public class Editor {
 
     // Constructor
     public Editor() {
+        this.sesionActiva = "";
+        this.sesionIniciada = false;
         this.listaUsuarios = new ArrayList<Usuario>(0);
     }
 
@@ -88,6 +90,7 @@ public class Editor {
     public void iniciarSesion(String nombre, String pass){
         Usuario encontrado = this.buscarUsuario(nombre);
         if(encontrado != null && encontrado.getPassword().equals(pass)){
+            System.out.println("Inicio de sesión exitoso");
             this.sesionActiva = nombre;
             this.sesionIniciada = true;
         }else{
@@ -137,6 +140,8 @@ public class Editor {
         Usuario nuevoUsuario = new Usuario(nombre, max_id, pass, this.date);
         this.listaUsuarios.add(nuevoUsuario);
     }
+
+
 
     // Mostrar por pantalla toda la info del editor
     public void printEditor(){
