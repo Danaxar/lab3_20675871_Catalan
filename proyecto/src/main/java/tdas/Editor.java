@@ -25,7 +25,7 @@ public class Editor {
     }
 
     public ArrayList<Usuario> getListaUsuarios() {
-        return listaUsuarios;
+        return this.listaUsuarios;
     }
 
     public Fecha getDate() {
@@ -43,10 +43,6 @@ public class Editor {
     // Setters
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
-        this.listaUsuarios = listaUsuarios;
     }
 
     public void setDate(Fecha date) {
@@ -90,11 +86,11 @@ public class Editor {
     public void iniciarSesion(String nombre, String pass){
         Usuario encontrado = this.buscarUsuario(nombre);
         if(encontrado != null && encontrado.getPassword().equals(pass)){
-            System.out.println("Inicio de sesión exitoso");
+            System.out.println("Inicio de sesion exitoso");
             this.sesionActiva = nombre;
             this.sesionIniciada = true;
         }else{
-            System.out.println("Inicio de sesión fallido");
+            System.out.println("Inicio de sesion fallido");
         }
     }
 
@@ -127,6 +123,21 @@ public class Editor {
         return;
     }
 
+    public String listaUsuariosToString(){
+        String salida = "";
+        ArrayList<Usuario> listaUsuarios = this.getListaUsuarios();
+        int n = listaUsuarios.size();
+        for(int i = 0; i < n; i++){
+            salida += "\t";
+            salida += listaUsuarios.get(i).getNombre();  // Obtener el nombre
+            salida += "\n";
+        }
+
+        return salida;
+    }
+
+
+
     // Registrar a un usuario
     public void register(String nombre, String pass){
         // Verificar que no exista el nombre
@@ -136,8 +147,8 @@ public class Editor {
             return;
         }
         // Registrar al usuario
-        int max_id = this.getMaxUserId();
-        Usuario nuevoUsuario = new Usuario(nombre, max_id, pass, this.date);
+        //int max_id = this.getMaxUserId();
+        Usuario nuevoUsuario = new Usuario(nombre, pass, this.date);
         this.listaUsuarios.add(nuevoUsuario);
     }
 
@@ -147,20 +158,18 @@ public class Editor {
     public void printEditor(){
         System.out.println(this.nombre + "\n" + "Fecha: ");
         System.out.println(this.date.formatearFecha());
-        System.out.println("Sesión Activa: " +
-                this.sesionActiva +
+        System.out.println("Sesion Activa: " +
+                this.sesionActiva + "\n" +
                 "Usuarios registrados: ");
 
-        this.printListaUsuarios();
 
-        // Lista de documentos
-        int n = this.listaUsuarios.size();
-        for (int i = 0; i < n; i++){
-            // Recorrer usuarios e imprimir listas de documentos
-            Usuario actual = this.listaUsuarios.get(i);
-            actual.printListaDocumentos();
-        }
+        System.out.println("XD");
 
+        // Lista de usuarios registrados en el sistema
+        System.out.println(this.listaUsuariosToString());
+
+        // Lista de documentos del usuario
+        System.out.println(this.buscarUsuario(this.sesionActiva).listaDocumentosToString());
         return;
     }
 

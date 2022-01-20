@@ -12,23 +12,23 @@ public class Acceso {
 
     // Getters
     // Obtener el nombre de usuario del acceso
-    public String getNombreUsuario(Acceso x){
-        return x.nombreUsuario;
+    public String getNombreUsuario(){
+        return this.nombreUsuario;
     }
     // Obtener el tipo de acceso del acceso
-    public char getTipoAcceso(Acceso x){
-        return x.tipoAcceso;
+    public char getTipoAcceso(){
+        return this.tipoAcceso;
     }
 
     // Setters
-    public void cambiarAcceso(Acceso x, char y){
-        x.tipoAcceso = y;
+    public void cambiarAcceso(char y){
+        this.tipoAcceso = y;
     }
 
     // Otros
     // Convertir a string el acceso
     public String toString(){
-        String salida = "";
+        String salida = "\t";
         salida = salida + this.nombreUsuario + " - " + this.tipoAcceso;
         return salida;
     }
