@@ -16,15 +16,22 @@ public class Fecha {
     }
 
     public Fecha(String formateado){
-        String[] partes = formateado.split("-");
+        // "yy/MM/dd HH:mm:ss"
+        String[] partes = formateado.split("/");
 
         int day = Integer.parseInt(partes[0]);
         int month = Integer.parseInt(partes[1]);
-        int year = Integer.parseInt(partes[2]);
 
         this.day = day;
         this.month = month;
+
+
+        // partes[2] = dd HH:mm:ss
+        String[] ultimaParte = partes[2].split(" ");
+        int year = Integer.parseInt(ultimaParte[0]);
         this.year = year;
+
+        this.formated = this.formatearFecha();
     }
 
     // Formatear la fecha
@@ -42,6 +49,22 @@ public class Fecha {
     public Fecha cpyFecha(Fecha x){
         Fecha salida = new Fecha(x.day, x.month, x.year);
         return salida;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getFormated() {
+        return formated;
     }
 
     // setter

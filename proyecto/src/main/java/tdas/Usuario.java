@@ -103,20 +103,55 @@ public class Usuario {
     public boolean puedeEditar(Documento x){
         // Recorrer lista de permisos
         int n = x.getListaAccesos().size();
-        for(int i = 0; i < 0; i++){
+        for(int i = 0; i < n; i++){
             Acceso actual = x.getListaAccesos().get(i);
-
+            // Buscar coincidencias por nombre de usuario
             if(this.nombre.equals(actual.getNombreUsuario())) {
+                System.out.println("Se ha encontrado una coincidencia");  // Error - no está encontrando las coincidencias
                 if(actual.getTipoAcceso() == 'w'){
+                    System.out.println("El usuario tiene permisos de escritura");
                    return true;
                 }else{
                     // Para no seguir buscando más casos cuando ya se sabe que no tiene acceso
+                    System.out.println("El usuario no tiene permisos de escritura 1");
                     return false;
                 }
             }
         }
 
+        System.out.println("El usuario no tiene permisos de escritura 2");
         return false;
+    }
+
+
+    public boolean esCreador(Documento x){
+        if(this.nombre.equals(x.getCreador())){
+            return true;
+        }
+        return false;
+    }
+
+    public Documento buscarDocumento(int id){
+        ArrayList<Documento> listaDoc = this.listaDocumentos;
+        int n = listaDoc.size();
+        for(int i = 0; i < n; i++){
+            Documento actual = listaDoc.get(i);
+            if(actual.getId() == id){
+                return actual;
+            }
+        }
+        return null;
+
+    }
+
+    public void restoreVersion(Documento x){
+        // Hay que eliminar el objeto pasado por entrada y marcar como activo el ultimo
+        int idAnt = x.getVersionAnterior();
+        // Eliminar objeto documento de la lista
+        this.listaDocumentos.remove(x);
+
+        // Buscar la nueva última versión
+        this.buscarDocumento(idAnt).setEsVersionActiva(true);
     }
 
 

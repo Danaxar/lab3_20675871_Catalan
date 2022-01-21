@@ -163,8 +163,6 @@ public class Editor {
                 "Usuarios registrados: ");
 
 
-        System.out.println("XD");
-
         // Lista de usuarios registrados en el sistema
         System.out.println(this.listaUsuariosToString());
 

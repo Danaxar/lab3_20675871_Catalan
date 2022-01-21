@@ -3,6 +3,9 @@ import tdas.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 
 public class Principal {
@@ -73,11 +76,20 @@ public class Principal {
         Editor sistema = new Editor();
 
         System.out.println("Ingrese el nombre del sistema: ");
-        String nombreSistema = leerEntrada.nextLine();
-        sistema.setNombre(nombreSistema);
+        //String nombreSistema = leerEntrada.nextLine();
+        sistema.setNombre("Paradigmadocs");
 
-        System.out.println("Ingrese la fecha del sistema: (DD-MM-YYYY)");
-        sistema.setDate(new Fecha(leerEntrada.nextLine()));
+        // Obtener la fecha actual del sistema
+        // System.out.println("Ingrese la fecha del sistema: (DD-MM-YYYY)");
+        DateTimeFormatter fechaActual = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss");
+        String fechaActualFormateado = fechaActual.format(LocalDateTime.now());
+        sistema.setDate(new Fecha(fechaActualFormateado));
+        System.out.println("Fecha actual: " + sistema.getDate().getFormated());
+
+
+
+
+        //sistema.setDate(new Fecha(leerEntrada.nextLine()));
 
         boolean encendido = true;
         while(encendido){
@@ -138,6 +150,11 @@ public class Principal {
                         // Compartir un documento
                         case 2:
                             System.out.println("Compartiendo documento");
+                            if(userActivo.getListaDocumentos().size() == 0){
+                                System.out.println("No existen documentos para compartir");
+                                break;
+                            }
+
                             // Escoger documento
                             System.out.println("Que documento deseas compartir?");
                             userActivo.printNombresDocumentos();
@@ -172,6 +189,10 @@ public class Principal {
                         // Agregar contenido a un documento
                         case 3:
                             System.out.println("Agregando contenido");
+                            if(userActivo.getListaDocumentos().size() == 0){
+                                System.out.println("No existen documentos para editar");
+                                break;
+                            }
                                                        
                             // Obtener numero de documento
                             System.out.println("Que documento deseas editar?");
@@ -183,7 +204,7 @@ public class Principal {
                             Documento documentoAntiguo = userActivo.getListaDocumentos().get(resp3);
                             Documento newDocument = new Documento(documentoAntiguo);  // Copiar objeto
 
-                            // Verificar si el nombre de la persona tiene el permiso 'w'
+                            // Verificar si el nombre de la persona tiene el permiso 'w' ERROR
                             if(userActivo.puedeEditar(documentoAntiguo) == false){
                                 System.out.println("No tienes acceso a editar este documento");
                                 break;
@@ -204,7 +225,30 @@ public class Principal {
                             }
                         // Restaurar versión de un documento
                         case 4:
-                            System.out.println("Restaurando versión anterior");
+                            System.out.println("Restaurando version anterior");
+
+                            // Verificar si existen documentos
+                            if(userActivo.getListaDocumentos().size() == 0){
+                                System.out.println("No existen documentos para restaurar");
+                                break;
+                            }
+
+                            // Mostrar lista de documentos
+                            System.out.println("Que documento deseas restaurar?");
+                            userActivo.printNombresDocumentos();
+
+                            // Obtener documento
+                            Scanner leerDocRestaurar = new Scanner(System.in);
+                            int doc4 = leerDocRestaurar.nextInt();
+                            Documento actual = userActivo.getListaDocumentos().get(doc4);
+
+                            // Verificar si es creador del documento
+                            if(actual.puedeCompartir(userActivo.getNombre())){
+                                sistema.buscarUsuario(nombSesionActiva).restoreVersion(actual);
+                            }else{
+                                System.out.println("Usted no es el creador del documento");
+                            }
+
                             break;
                         // Reevocar acceso a un documento
                         case 5:

@@ -168,4 +168,11 @@ public class Documento {
 
     }
 
+    public boolean puedeCompartir(String nombre){
+        if(this.creador.equals(nombre)){
+            return true;
+        }
+        return false;
+    }
+
 }
