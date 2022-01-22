@@ -1,5 +1,6 @@
 import tdas.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -85,11 +86,26 @@ public class Principal {
         String fechaActualFormateado = fechaActual.format(LocalDateTime.now());
         sistema.setDate(new Fecha(fechaActualFormateado));
         System.out.println("Fecha actual: " + sistema.getDate().getFormated());
-
-
-
-
         //sistema.setDate(new Fecha(leerEntrada.nextLine()));
+
+        // Para el debugging//////////////////////////////////////
+        sistema.register("Daniel", "Rucio025");  // Registrando a un usuario
+        sistema.register("Fran", "123");
+        sistema.register("Stroken", "XD");
+        // Creando un documento
+        sistema.getListaUsuarios().get(0).crearDocumento("Doc1", "holaaa", sistema.getDate(), "Daniel");
+        // Agregando contenido al documento
+        Documento aaaa = sistema.getListaUsuarios().get(0).getListaDocumentos().get(0);
+        Documento nnnn = new Documento(aaaa);
+
+        // Modificar nuevo documento
+        nnnn.setContenido(nnnn.getContenido() + "AGREGADO");
+        nnnn.setId(aaaa.getId() + 1);
+        nnnn.setVersionAnterior(aaaa.getId());
+        // Hacer cambio en el sistema
+        sistema.buscarUsuario("Daniel").getListaDocumentos().add(nnnn);  // Agregar documento nuevo
+        sistema.buscarUsuario("Daniel").getListaDocumentos().get(0).setEsVersionActiva(false);
+        //////////////////////////////////
 
         boolean encendido = true;
         while(encendido){
@@ -164,6 +180,7 @@ public class Principal {
                             // Verificar que el nombre del creador sea el mismo que el de la sesion
                             // Iniciada
                             if(doc.getCreador().equals(userActivo.getNombre()) == false){
+                                System.out.println("Usted no es el creador del documento");
                                 break;
                             }else{
                                 // Crear acceso
@@ -242,21 +259,75 @@ public class Principal {
                             int doc4 = leerDocRestaurar.nextInt();
                             Documento actual = userActivo.getListaDocumentos().get(doc4);
 
-                            // Verificar si es creador del documento
-                            if(actual.puedeCompartir(userActivo.getNombre())){
-                                sistema.buscarUsuario(nombSesionActiva).restoreVersion(actual);
-                            }else{
-                                System.out.println("Usted no es el creador del documento");
-                            }
+                            // Verificar si el documento se puede restaurar
+                            if(actual.puedeRestaurar()){
+                                System.out.println("El documento es restaurable");
 
+                                // Verificar si es creador del documento
+                                System.out.println("Nombre de usuario activo: " + userActivo.getNombre());
+                                if(actual.puedeCompartir(userActivo.getNombre())){
+                                    System.out.println("Usted es el creador del documento");
+                                    sistema.buscarUsuario(nombSesionActiva).restoreVersion(actual.getId());
+                                    break;
+                                }else{
+                                    System.out.println("Usted no es el creador del documento");
+                                }
+
+                            }else{
+                                System.out.println("El documento no es restaurable");
+                                break;
+                            }
                             break;
-                        // Reevocar acceso a un documento
+                        // Revocar acceso a un documento
                         case 5:
                             System.out.println("Revocando accesos del documento");
+                            // Reemplazar la lista entera por una que contenga solo el acceso del creador
+
+                            // Verificar si existen documentos
+                            if(userActivo.getListaDocumentos().size() == 0){
+                                System.out.println("No existen documentos para restaurar");
+                                break;
+                            }
+
+                            // Mostrar lista de documentos
+                            System.out.println("Que documento deseas revocar accesos?");
+                            userActivo.printNombresDocumentos();  // Mostrar los documentos
+
+                            // Obtener el documento actual y hacerle las modificaciones
+                            int indexDoc5 = leerEntrada.nextInt();  // Obtener el indice del documento
+                            Documento actual5 = userActivo.getListaDocumentos().get(indexDoc5);
+                            // Crear nueva lista de accesos
+                            ArrayList<Acceso> listaAccesosNuevo = new ArrayList<Acceso>(1);
+                            listaAccesosNuevo.add(new Acceso(userActivo.getNombre(), 'w'));
+                            // Hacer modificación en el sistema
+                            sistema.buscarUsuario(nombSesionActiva).getListaDocumentos().
+                                    get(indexDoc5).setListaAccesos(listaAccesosNuevo);
                             break;
                         // Buscar en los documentos
                         case 6:
                             System.out.println("Buscando en los documentos");
+                            System.out.println("Que texto/palabra desea buscar?");
+                            String texto = leerEntrada.nextLine();
+
+                            ArrayList<Documento> lD = userActivo.getListaDocumentos();
+                            ArrayList<Documento> encontrado = new ArrayList<Documento>(1);
+                            int n = lD.size();
+                            for(int i = 0; i < n; i++){
+                                Documento actual6 = lD.get(i);
+                                if(actual6.contieneTexto(texto)){
+                                    encontrado.add(actual6);
+                                }
+                            }
+
+                            if(encontrado.size() == 0){
+                                System.out.println("No se ha encontrado ninguna coincidencia");
+                            }else{
+                                System.out.println("Documentos con coincidencias: ");
+                                for(int i = 0; i < encontrado.size(); i++){
+                                    System.out.println("ID: " + Integer.toString(encontrado.get(i).getId()) + ". "
+                                    + encontrado.get(i).getNombre());
+                                }
+                            }
                             break;
                         // Visualizar documentos
                         case 7:

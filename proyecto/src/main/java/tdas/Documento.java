@@ -47,6 +47,7 @@ public class Documento {
         this.listaAccesos = x.getListaAccesos();
         this.versionAnterior = x.getVersionAnterior();
         this.esVersionActiva = x.isEsVersionActiva();
+        this.creador = x.getCreador();
     }
 
     // Getters
@@ -141,7 +142,7 @@ public class Documento {
 
     public String toString(){
         String salida = "Documento:\n\tNombre: ";
-        salida += this.getNombre() + "\n\tCreador";
+        salida += this.getNombre() + "\n\tCreador: ";
         salida += this.getCreador() + "\n\tVersion: ";
         salida += Integer.toString(this.getId()) + "\n\tVersion anterior: ";
         salida += Integer.toString(this.getVersionAnterior()) + "\n\tFecha de creacion: ";
@@ -173,6 +174,17 @@ public class Documento {
             return true;
         }
         return false;
+    }
+
+    public boolean puedeRestaurar(){
+        if(this.id == -1){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean contieneTexto(String texto){
+        return this.contenido.contains(texto);
     }
 
 }

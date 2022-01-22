@@ -141,17 +141,20 @@ public class Usuario {
             }
         }
         return null;
-
     }
 
-    public void restoreVersion(Documento x){
-        // Hay que eliminar el objeto pasado por entrada y marcar como activo el ultimo
-        int idAnt = x.getVersionAnterior();
-        // Eliminar objeto documento de la lista
-        this.listaDocumentos.remove(x);
+    public void restoreVersion(int id){
+        Documento actual = this.buscarDocumento(id); // Buscar documento por id
+        int idAnterior = actual.getVersionAnterior(); // Obtener id de la versión anterior
+        this.listaDocumentos.remove(actual);  // Remover objeto actual
 
-        // Buscar la nueva última versión
-        this.buscarDocumento(idAnt).setEsVersionActiva(true);
+        // Obtener el índice de la versión anterior
+        int indice = this.listaDocumentos.indexOf(this.buscarDocumento(idAnterior));
+
+        // Cambiar la versión anterior como la versión activa del documento
+        this.listaDocumentos.get(indice).setEsVersionActiva(true);
+
+
     }
 
 
