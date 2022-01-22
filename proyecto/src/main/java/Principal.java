@@ -137,36 +137,41 @@ public class Principal {
                         sistema.getDate(), "Daniel"); // Ojala fuera cierto :')
 
 
-
+        // Inicio del programa
         boolean encendido = true;
         while(encendido){
-
             // Pantalla externa (Login - Register)
             int respuesta = mostrarOpcionesInicio();
             if(respuesta == 1){
                 // Quiere iniciar sesión
                 System.out.println("Iniciando sesion...");
                 Scanner string2 = new Scanner(System.in);
+                // Pedir nombre de usuario
                 System.out.println("Ingrese el nombre de usuario");
                 String nombreUser = string2.nextLine();
+                // Pedir la contraseña
                 System.out.println("Ingrese la password");
                 String passUser = string2.nextLine();
 
+                // Iniciar la sesión en el sistema
                 sistema.iniciarSesion(nombreUser, passUser);
 
-                // Una vez iniciada la sesión se puede tener acceso
-                // A las demás opciones -> Otro loop
+                // Una vez iniciada la sesión se puede tener acceso las demás opciones
                 while(sistema.isSesionIniciada()){
+                    // Recibir la opción del usuario
                     int opcionSistema = mostrarOpcionesSistema();
-                    // Variables reutilizadas constantemente
+
+                    // Variables reutilizadas constantemente -> disminuir sintaxis
                     Fecha fechaSis = sistema.getDate();
                     String nombSesionActiva = sistema.getSesionActiva();
                     Usuario userActivo = sistema.buscarUsuario(nombSesionActiva);
 
+                    // Evaluar la opción del usuario
                     switch(opcionSistema){
-                        // Crear un nuevo documento
-                        case 1:
-                            System.out.println("Creando nuevo documento.");
+
+                        case 1: // Crear un nuevo documento
+                            System.out.println("Creando nuevo documento...");
+
                             // Pedir entradas
                             Scanner leerDoc = new Scanner(System.in);
 
