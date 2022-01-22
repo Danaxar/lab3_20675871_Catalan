@@ -145,7 +145,7 @@ public class Documento {
         salida += this.getNombre() + "\n\tCreador: ";
         salida += this.getCreador() + "\n\tVersion: ";
         salida += Integer.toString(this.getId()) + "\n\tVersion anterior: ";
-        salida += Integer.toString(this.getVersionAnterior()) + "\n\tFecha de creacion: ";
+        salida += Integer.toString(this.getVersionAnterior()) + "\n\tFecha de creacion    : ";
         salida += this.getFechaCreacion().formatearFecha() + "\n\tFecha de modificacion: ";
         salida += this.getFechaModificacion().formatearFecha() + "\n\tVersion activa: ";  // Aqui está el error
         if(this.esVersionActiva){

@@ -78,22 +78,46 @@ public class Usuario {
         }
     }
 
-    public String listaDocumentosToString(){
+    public String listaDocumentosToString(int modo){
         String salida = "";
         int n = this.listaDocumentos.size();
-        for (int i = 0; i < n; i++){
-            Documento actual = this.listaDocumentos.get(i);
-            salida += actual.toString();
+        if(modo == 1){  // Modo usuario -> Mostrar solo versiones activas
+            for (int i = 0; i < n; i++){
+                Documento actual = this.listaDocumentos.get(i);
+                // Agregar solo si es la version activa
+                if(actual.isEsVersionActiva()){
+                    salida += actual.toString();
+                }
+            }
+        }else{ // modo = 2 -> Mostrar todas las versiones
+            for (int i = 0; i < n; i++){
+                Documento actual = this.listaDocumentos.get(i);
+                salida += actual.toString();
+            }
         }
+
+
+
         return salida;
     }
 
-    public void printNombresDocumentos(){
+    public void printNombresDocumentos(int modo){
         ArrayList<Documento> listaDoc = this.getListaDocumentos();
         int n = listaDoc.size();
-        for(int i = 0; i < n; i++){
-            System.out.println("\t" + Integer.toString(i) + ". " + listaDoc.get(i).getNombre() + "\n");
+
+        if(modo == 1){  // Mostrar solo casos activos
+            for(int i = 0; i < n; i++){
+                Documento actual = listaDoc.get(i);
+                if(actual.isEsVersionActiva()){
+                    System.out.println("\t" + Integer.toString(i) + ". " + actual.getNombre() + "\n");
+                }
+            }
+        }else{  // Mostrar todos los casos
+            for(int i = 0; i < n; i++){
+                System.out.println("\t" + Integer.toString(i) + ". " + listaDoc.get(i).getNombre() + "\n");
+            }
         }
+
     }
 
     public void crearDocumento(String nombre, String contenido, Fecha fechaCreacion, String creador){
@@ -107,7 +131,7 @@ public class Usuario {
             Acceso actual = x.getListaAccesos().get(i);
             // Buscar coincidencias por nombre de usuario
             if(this.nombre.equals(actual.getNombreUsuario())) {
-                System.out.println("Se ha encontrado una coincidencia");  // Error - no está encontrando las coincidencias
+                //System.out.println("Se ha encontrado una coincidencia");  // Error - no está encontrando las coincidencias
                 if(actual.getTipoAcceso() == 'w'){
                     System.out.println("El usuario tiene permisos de escritura");
                    return true;

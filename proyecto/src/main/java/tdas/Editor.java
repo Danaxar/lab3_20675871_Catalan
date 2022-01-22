@@ -153,23 +153,43 @@ public class Editor {
     }
 
 
+    public String editorUsuarioToString(){
+        String salida = "";
+        salida = salida.concat(this.nombre + "\n" + "Fecha: " + this.date.formatearFecha() + "\n");
+        Usuario actual = this.buscarUsuario(this.sesionActiva);
+        salida = salida.concat("Sesion Activa:" + "\n\tNombre de usuario: " + actual.getNombre() + "\n\t" +
+                "Id: " + Integer.toString(actual.getId()) + "\n\t" + "Password: " +
+                actual.getPassword() + "\n\t" + "Fecha de registro: " + actual.getFechaRegistro().getFormated() +
+                "\n\n");
+        // + "\n" + "Usuarios registrados: ");
+        //salida = salida.concat(this.listaUsuariosToString()); // Lista de usuarios registrados en el sistema
 
-    // Mostrar por pantalla toda la info del editor
-    public void printEditor(){
-        System.out.println(this.nombre + "\n" + "Fecha: ");
-        System.out.println(this.date.formatearFecha());
-        System.out.println("Sesion Activa: " +
-                this.sesionActiva + "\n" +
-                "Usuarios registrados: ");
-
-
-        // Lista de usuarios registrados en el sistema
-        System.out.println(this.listaUsuariosToString());
-
-        // Lista de documentos del usuario
-        System.out.println(this.buscarUsuario(this.sesionActiva).listaDocumentosToString());
-        return;
+        // Lista de documentos del usuario -> Mostrar solo los activos
+        salida = salida.concat(this.buscarUsuario(this.sesionActiva).listaDocumentosToString(1));
+        return salida;
     }
+
+    public String editorGeneralToString(){
+        String salida = "";
+        salida = salida.concat(this.nombre + "\n" + "Fecha: " + this.date.formatearFecha() + "\n");
+        salida = salida.concat("Sesion Activa: " + this.sesionActiva + "\n" + "Usuarios registrados:\n");
+        salida = salida.concat(this.listaUsuariosToString()); // Lista de usuarios registrados en el sistema
+
+        // Mostrar todos los documentos de todos los usuarios registrados
+        for(int i = 0; i < this.listaUsuarios.size(); i++){
+            Usuario actual = this.listaUsuarios.get(i);
+            salida = salida.concat("\n# " + actual.getNombre() + " #\n");
+            salida = salida.concat(actual.listaDocumentosToString(2)); // Lista de documentos del usuario
+            salida = salida.concat("\n\n");
+        }
+
+        return salida;
+    }
+
+    public void imprimirEditor(String info){
+        System.out.println(info);
+    }
+
 
 
 }

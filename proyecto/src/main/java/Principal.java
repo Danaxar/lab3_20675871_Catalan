@@ -16,12 +16,13 @@ public class Principal {
         System.out.println("Que desea hacer?\n" +
                 "\t1. Iniciar Sesion\n" +
                 "\t2. Registrarse\n" +
-                "\t3. Cerrar el programa\n");
+                "\t3. Visualizar sistema\n" +
+                "\t4. Cerrar el programa");
 
         Scanner respuesta = new Scanner(System.in);
         int respuesta_out = respuesta.nextInt();
         // Si la respuesta no es válida -> pedir entrada de nuevo
-        if(respuesta_out != 1 && respuesta_out != 2 && respuesta_out != 3){
+        if(respuesta_out != 1 && respuesta_out != 2 && respuesta_out != 3 && respuesta_out != 4){
             System.out.println("Respuesta invalida, por favor ingrese 1, 2 o 3. según su preferencia.");
             return mostrarOpcionesInicio();
         }
@@ -76,7 +77,7 @@ public class Principal {
         // Crear tda sistema
         Editor sistema = new Editor();
 
-        System.out.println("Ingrese el nombre del sistema: ");
+        //System.out.println("Ingrese el nombre del sistema: ");
         //String nombreSistema = leerEntrada.nextLine();
         sistema.setNombre("Paradigmadocs");
 
@@ -88,24 +89,54 @@ public class Principal {
         System.out.println("Fecha actual: " + sistema.getDate().getFormated());
         //sistema.setDate(new Fecha(leerEntrada.nextLine()));
 
-        // Para el debugging//////////////////////////////////////
-        sistema.register("Daniel", "Rucio025");  // Registrando a un usuario
-        sistema.register("Fran", "123");
-        sistema.register("Stroken", "XD");
-        // Creando un documento
-        sistema.getListaUsuarios().get(0).crearDocumento("Doc1", "holaaa", sistema.getDate(), "Daniel");
-        // Agregando contenido al documento
-        Documento aaaa = sistema.getListaUsuarios().get(0).getListaDocumentos().get(0);
-        Documento nnnn = new Documento(aaaa);
+        // Cargar 5 usuarios predeterminados al sistema
+        sistema.register("Paula", "asdf");  // Registrando a un usuario
+        sistema.register("Ximena", "1234");
+        sistema.register("Juan", "kkk1");
+        sistema.register("Nacho", "abcd");
+        sistema.register("Daniel", "1212");
 
-        // Modificar nuevo documento
-        nnnn.setContenido(nnnn.getContenido() + "AGREGADO");
-        nnnn.setId(aaaa.getId() + 1);
-        nnnn.setVersionAnterior(aaaa.getId());
-        // Hacer cambio en el sistema
-        sistema.buscarUsuario("Daniel").getListaDocumentos().add(nnnn);  // Agregar documento nuevo
-        sistema.buscarUsuario("Daniel").getListaDocumentos().get(0).setEsVersionActiva(false);
-        //////////////////////////////////
+        // Cargando documentos al sistemas inicialmente
+        // Paula
+        sistema.buscarUsuario("Paula").
+                crearDocumento("Doc1", "hola",
+                        sistema.getDate(), "Paula");
+        sistema.buscarUsuario("Paula").
+                crearDocumento("Notas","Este es un documento de notas",
+                        sistema.getDate(), "Paula");
+
+        // Ximena
+        sistema.buscarUsuario("Ximena").
+                crearDocumento("Cosas","Aqui anoto cosas",
+                        sistema.getDate(), "Ximena");
+        sistema.buscarUsuario("Ximena").
+                crearDocumento("Fechas","Aqui anoto fechas",
+                        sistema.getDate(), "Ximena");
+
+        // Juan
+        sistema.buscarUsuario("Juan").
+            crearDocumento("Transferencias","Aqui anoto transferencias",
+                    sistema.getDate(), "Juan");
+        sistema.buscarUsuario("Juan").
+                crearDocumento("doc1","----",
+                        sistema.getDate(), "Juan");
+
+        // Nacho
+        sistema.buscarUsuario("Nacho").
+                crearDocumento("Claves gta","HESOYAM",
+                        sistema.getDate(), "Nacho");
+        sistema.buscarUsuario("Nacho").
+                crearDocumento("Calificaciones","4 7 6 5",
+                        sistema.getDate(), "Nacho");
+
+        sistema.buscarUsuario("Daniel").
+                crearDocumento("Notas paradigmas","7 7 7 7 7 7 7",
+                        sistema.getDate(), "Daniel");
+        sistema.buscarUsuario("Daniel").
+                crearDocumento("Notas eda","7 7 7 7 7 7",
+                        sistema.getDate(), "Daniel"); // Ojala fuera cierto :')
+
+
 
         boolean encendido = true;
         while(encendido){
@@ -173,7 +204,7 @@ public class Principal {
 
                             // Escoger documento
                             System.out.println("Que documento deseas compartir?");
-                            userActivo.printNombresDocumentos();
+                            userActivo.printNombresDocumentos(1);
                             Scanner leerNumDocumento = new Scanner(System.in);
                             int resp2 = leerNumDocumento.nextInt();
                             Documento doc = userActivo.getListaDocumentos().get(resp2);
@@ -213,7 +244,7 @@ public class Principal {
                                                        
                             // Obtener numero de documento
                             System.out.println("Que documento deseas editar?");
-                            userActivo.printNombresDocumentos();
+                            userActivo.printNombresDocumentos(1);
                             Scanner leerNumDocumento2 = new Scanner(System.in);
                             int resp3 = leerNumDocumento2.nextInt();
 
@@ -252,7 +283,7 @@ public class Principal {
 
                             // Mostrar lista de documentos
                             System.out.println("Que documento deseas restaurar?");
-                            userActivo.printNombresDocumentos();
+                            userActivo.printNombresDocumentos(1);
 
                             // Obtener documento
                             Scanner leerDocRestaurar = new Scanner(System.in);
@@ -291,7 +322,7 @@ public class Principal {
 
                             // Mostrar lista de documentos
                             System.out.println("Que documento deseas revocar accesos?");
-                            userActivo.printNombresDocumentos();  // Mostrar los documentos
+                            userActivo.printNombresDocumentos(1);  // Mostrar los documentos
 
                             // Obtener el documento actual y hacerle las modificaciones
                             int indexDoc5 = leerEntrada.nextInt();  // Obtener el indice del documento
@@ -329,10 +360,11 @@ public class Principal {
                                 }
                             }
                             break;
-                        // Visualizar documentos
+
                         case 7:
+                            // Visualizar sistema desde el usuario
                             System.out.println("Visualizando Sistema");
-                            sistema.printEditor();
+                            sistema.imprimirEditor(sistema.editorUsuarioToString());
                             break;
                         // Cerrar sesión
                         case 8:
@@ -360,6 +392,13 @@ public class Principal {
                 // Hacer el registro
                 sistema.register(nombreUsuario, password);
             }else if(respuesta == 3){
+                // Visualizar el sistema desde fuera (sin iniciar sesión)
+                sistema.imprimirEditor(sistema.editorGeneralToString());
+            }
+
+
+
+            else if(respuesta == 4){
                 System.out.println("Cerrando programa...");
                 // Quiere cerrar el programa
                 encendido = false;
