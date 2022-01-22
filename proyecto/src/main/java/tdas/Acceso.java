@@ -1,10 +1,21 @@
 package tdas;
 
+/**
+ * Clase que representa el objeto acceso a un documento
+ * @author Daniel Catalán
+ * @version java 11
+ */
 public class Acceso {
     private String nombreUsuario;
     private char tipoAcceso;
 
     // Constructor
+
+    /**
+     * Constructor de la clase Acceso
+     * @param n nombre del usuario con acceso
+     * @param t tipo de acceso sobre el documento
+     */
     public Acceso(String n, char t){
         this.nombreUsuario = n;
         this.tipoAcceso = t;
@@ -20,13 +31,11 @@ public class Acceso {
         return this.tipoAcceso;
     }
 
-    // Setters
-    public void cambiarAcceso(char y){
-        this.tipoAcceso = y;
-    }
-
     // Otros
-    // Convertir a string el acceso
+    /**
+     * Convierte a string el objeto acceso
+     * @return string con la información del objeto acceso
+     */
     public String toString(){
         String salida = "\t";
         salida = salida + this.nombreUsuario + " - " + this.tipoAcceso;

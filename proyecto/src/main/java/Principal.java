@@ -13,11 +13,11 @@ public class Principal {
 
     // Funciones de interacción con el programa
     public static int mostrarOpcionesInicio(){
-        System.out.println("Que desea hacer?\n" +
+        System.out.print("Que desea hacer? (Ingrese el numero de su opcion)\n" +
                 "\t1. Iniciar Sesion\n" +
                 "\t2. Registrarse\n" +
                 "\t3. Visualizar sistema\n" +
-                "\t4. Cerrar el programa");
+                "\t4. Cerrar el programa\n>>> ");
 
         Scanner respuesta = new Scanner(System.in);
         int respuesta_out = respuesta.nextInt();
@@ -34,7 +34,7 @@ public class Principal {
     public static int mostrarOpcionesSistema() {
         // ###Mostrar por pantalla el nombre de usuario logueado
 
-        System.out.println("Que desea hacer?\n" +
+        System.out.print("\nQue desea hacer? (Ingrese el numero de su opcion)\n" +
                 "\t1. Crear nuevo documento\n" +
                 "\t2. Compartir documento\n" +
                 "\t3. Agregar contenido a un documento\n" +
@@ -43,7 +43,7 @@ public class Principal {
                 "\t6. Buscar en los documentos\n" +
                 "\t7. Visualizar sistema\n" +
                 "\t8. Cerrar sesion\n" +
-                "\t9. Cerrar el programa\n"
+                "\t9. Cerrar el programa\n>>> "
         );
 
         Scanner respuesta = new Scanner(System.in);
@@ -69,25 +69,19 @@ public class Principal {
         System.out.println("Ejecucion iniciada");
         Scanner leerEntrada = new Scanner(System.in);
 
-        // Inicializar clases
+        // Inicializar clases para los contadores (atributos static)
         Usuario.iniciarClaseUsuario();
         Documento.activarClaseDoc();
 
-
         // Crear tda sistema
         Editor sistema = new Editor();
-
-        //System.out.println("Ingrese el nombre del sistema: ");
-        //String nombreSistema = leerEntrada.nextLine();
         sistema.setNombre("Paradigmadocs");
 
         // Obtener la fecha actual del sistema
-        // System.out.println("Ingrese la fecha del sistema: (DD-MM-YYYY)");
         DateTimeFormatter fechaActual = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss");
         String fechaActualFormateado = fechaActual.format(LocalDateTime.now());
         sistema.setDate(new Fecha(fechaActualFormateado));
         System.out.println("Fecha actual: " + sistema.getDate().getFormated());
-        //sistema.setDate(new Fecha(leerEntrada.nextLine()));
 
         // Cargar 5 usuarios predeterminados al sistema
         sistema.register("Paula", "asdf");  // Registrando a un usuario
@@ -140,28 +134,29 @@ public class Principal {
         // Inicio del programa
         boolean encendido = true;
         while(encendido){
-            // Pantalla externa (Login - Register)
-            int respuesta = mostrarOpcionesInicio();
-            if(respuesta == 1){
-                // Quiere iniciar sesión
+            // Pantalla externa (Login - Register - Visualizar y Cerrar programa)
+            int respuesta = mostrarOpcionesInicio();  // Muestra las opciones y pide entrada por consola
+
+            if(respuesta == 1){ // Quiere iniciar sesión
                 System.out.println("Iniciando sesion...");
-                Scanner string2 = new Scanner(System.in);
+
                 // Pedir nombre de usuario
-                System.out.println("Ingrese el nombre de usuario");
-                String nombreUser = string2.nextLine();
+                System.out.print("Ingrese el nombre de usuario: ");
+                String nombreUser = leerEntrada.nextLine();
+
                 // Pedir la contraseña
-                System.out.println("Ingrese la password");
-                String passUser = string2.nextLine();
+                System.out.print("Ingrese su clave: ");
+                String passUser = leerEntrada.nextLine();
 
                 // Iniciar la sesión en el sistema
                 sistema.iniciarSesion(nombreUser, passUser);
 
                 // Una vez iniciada la sesión se puede tener acceso las demás opciones
-                while(sistema.isSesionIniciada()){
-                    // Recibir la opción del usuario
+                while(sistema.isSesionIniciada()){  // Mientras la sesión esté iniciada
+                    // Mostrar opciones y recibir respuesta del usuario
                     int opcionSistema = mostrarOpcionesSistema();
 
-                    // Variables reutilizadas constantemente -> disminuir sintaxis
+                    // Variables reutilizadas constantemente para disminuir sintaxis
                     Fecha fechaSis = sistema.getDate();
                     String nombSesionActiva = sistema.getSesionActiva();
                     Usuario userActivo = sistema.buscarUsuario(nombSesionActiva);
@@ -172,77 +167,70 @@ public class Principal {
                         case 1: // Crear un nuevo documento
                             System.out.println("Creando nuevo documento...");
 
-                            // Pedir entradas
-                            Scanner leerDoc = new Scanner(System.in);
+                            // Pedir nombre del documento
+                            System.out.print("Ingrese el nombre del documento: ");
+                            String nombreDoc = leerEntrada.nextLine();
 
-                            // Nombre del documento
-                            System.out.println("Ingrese el nombre del documento: ");
-                            String nombreDoc = leerDoc.nextLine();
-
-                            // Contenido del documento
-                            System.out.println("Ingrese el contenido del documento: ");
-                            String contDoc = leerDoc.nextLine();
-
-                            // Crear objeto documento
-                            Documento newDoc = new Documento(nombreDoc, contDoc, fechaSis, nombSesionActiva);
-
-                            // Obtener el usuario
-                            Usuario user = sistema.buscarUsuario(sistema.getSesionActiva());
-                            // Obtener su indice en la lista de usuarios
-                            int index_user = sistema.getListaUsuarios().indexOf(user);
+                            // Pedir contenido del documento
+                            System.out.print("Ingrese el contenido del documento: ");
+                            String contDoc = leerEntrada.nextLine();
 
                             // Agregar objeto documento a objeto usuario
-                            user.crearDocumento(nombreDoc, contDoc, fechaSis, nombSesionActiva);
-
-
-                            // Modificar el sistema -> modificar usuario
-                            sistema.getListaUsuarios().set(index_user, user);
+                            userActivo.crearDocumento(nombreDoc, contDoc, fechaSis, nombSesionActiva);
                             break;
 
-                        // Compartir un documento
-                        case 2:
-                            System.out.println("Compartiendo documento");
+
+                        case 2: // Compartir un documento
+                            System.out.println("Compartiendo documento...");
                             if(userActivo.getListaDocumentos().size() == 0){
-                                System.out.println("No existen documentos para compartir");
+                                System.out.println("Error, no existen documentos para compartir");
                                 break;
                             }
 
                             // Escoger documento
                             System.out.println("Que documento deseas compartir?");
                             userActivo.printNombresDocumentos(1);
-                            Scanner leerNumDocumento = new Scanner(System.in);
-                            int resp2 = leerNumDocumento.nextInt();
-                            Documento doc = userActivo.getListaDocumentos().get(resp2);
-                            // Verificar que el nombre del creador sea el mismo que el de la sesion
-                            // Iniciada
-                            if(doc.getCreador().equals(userActivo.getNombre()) == false){
-                                System.out.println("Usted no es el creador del documento");
+                            // Scanner leerNumDocumento = new Scanner(System.in);
+                            System.out.print(">>> ");
+                            int resp2 = leerEntrada.nextInt();
+                            Documento doc = userActivo.getListaDocumentos().get(resp2);  // Obtener obj documento
+
+                            // Verificar que el nombre del creador sea el mismo que el de la sesión iniciada
+                            if(doc.getCreador().equals(nombSesionActiva) == false){
+                                System.out.println("Error, usted no es el creador del documento");
                                 break;
                             }else{
                                 // Crear acceso
-                                System.out.println("A quien quieres dar permiso?");
+                                System.out.print("A quien quieres dar permiso?: ");
                                 Scanner leerPermiso = new Scanner(System.in);
+                                /*Por alguna razón usando el mismo objeto "leerEntrada" el sistema no dejaba tomar
+                                * una entrada nueva para obtener el nombre de usuario al que se quiere compartir.
+                                * Mi teoría es que leía automáticamente el salto de línea al presionar enter para
+                                * poder escoger la opción de compartir, lo que inhabilitaba altiro la calidad
+                                * de la respuesta del usuario imprimiendo por pantalla "Error, el usuario no existe"*/
+
+                                // Escoger nombre de usuario
                                 String usuarioConPermiso = leerPermiso.nextLine();
                                 if(sistema.existeUsuario(usuarioConPermiso) == false){
                                     System.out.println("Error, el usuario no existe.");
                                     break;
                                 }
-                                System.out.println("Que tipo de permiso quieres darle?\n"
-                                + "\t'r': Lectura\n\t'w': Escritura\n\t'c': Comentarios\n");
-                                char resp = leerPermiso.next().charAt(0);  // Leer caracter
-                                Acceso nuevoAcceso = new Acceso(usuarioConPermiso, resp);
+                                // Escoger tipo de permiso (caracter)
+                                System.out.print("Que tipo de permiso quieres darle? " +
+                                        "(ingrese el caracter de su opcion)\n" +
+                                        "\t'r': Lectura\n\t'w': Escritura\n\t'c': Comentarios\n>>> ");
+                                char resp = leerPermiso.next().charAt(0);  // Leer carácter
 
                                 // Modificar objeto documento
-                                doc.agregarAcceso(nuevoAcceso);
-                                sistema.buscarUsuario(nombSesionActiva).getListaDocumentos().set(resp2, doc);
-                                // Agregar a la lista de documentos de la persona compartida para que lo pueda ver
+                                doc.agregarAcceso(new Acceso(usuarioConPermiso, resp));
+                                // Agregar documento a la lista de documentos del usuario al que se comparte
                                 sistema.buscarUsuario(usuarioConPermiso).getListaDocumentos().add(doc);
                                 break;
                             }
-                        // Agregar contenido a un documento
-                        case 3:
+
+                        case 3: // Agregar contenido a un documento
                             System.out.println("Agregando contenido");
-                            if(userActivo.getListaDocumentos().size() == 0){
+                            if(userActivo.getListaDocumentos().size() == 0){  // Verificar existencia de documentos
                                 System.out.println("No existen documentos para editar");
                                 break;
                             }
@@ -250,35 +238,46 @@ public class Principal {
                             // Obtener numero de documento
                             System.out.println("Que documento deseas editar?");
                             userActivo.printNombresDocumentos(1);
-                            Scanner leerNumDocumento2 = new Scanner(System.in);
-                            int resp3 = leerNumDocumento2.nextInt();
+                            System.out.print(">>> ");
+                            int resp3 = leerEntrada.nextInt();
 
-                            // Obtener objeto documento
+                            // Obtener objeto documento (actual)
                             Documento documentoAntiguo = userActivo.getListaDocumentos().get(resp3);
-                            Documento newDocument = new Documento(documentoAntiguo);  // Copiar objeto
+                            Documento newDocument = new Documento(documentoAntiguo);  // Copiar objeto en otro
 
-                            // Verificar si el nombre de la persona tiene el permiso 'w' ERROR
+                            // Verificar si el nombre de la persona tiene el permiso 'w'
                             if(userActivo.puedeEditar(documentoAntiguo) == false){
                                 System.out.println("No tienes acceso a editar este documento");
                                 break;
-                            }else{
+                            }else{  // -> Tiene permiso para editar
                                 // Obtener contenido a agregar
-                                System.out.println("Escribe lo que deseas agregar: ");
+                                System.out.print("Escribe lo que deseas agregar: ");
                                 Scanner leerContenidoDoc = new Scanner(System.in);
                                 String contenidoAgregar = leerContenidoDoc.nextLine();
+                                /*Aqui ocurre el mismo error, se parchea haciendo un nuevo objeto Scanner,
+                                * actualmente no manejo la razón de este error. */
                                 
                                 // Modificar nuevo documento
                                 newDocument.setContenido(newDocument.getContenido() + contenidoAgregar);
                                 newDocument.setId(documentoAntiguo.getId() + 1);
                                 newDocument.setVersionAnterior(documentoAntiguo.getId());
+
                                 // Hacer cambio en el sistema
-                                sistema.buscarUsuario(nombSesionActiva).getListaDocumentos().add(newDocument);  // Agregar documento nuevo
-                                sistema.buscarUsuario(nombSesionActiva).getListaDocumentos().get(resp3).setEsVersionActiva(false);
+                                userActivo.getListaDocumentos().add(newDocument);  // Agregar documento nuevo
+                                userActivo.getListaDocumentos().get(resp3).setEsVersionActiva(false);
+
+                                // Si la persona que agregó contenido no es el creador del documento
+                                // Hay que agregar este nuevo objeto a la lista de documentos del creador
+                                // Para que haya sincronización
+                                if(userActivo.esCreador(newDocument) == false){
+                                    sistema.buscarUsuario(newDocument.getCreador()).
+                                            getListaDocumentos().add(newDocument);
+                                }
                                 break;
                             }
-                        // Restaurar versión de un documento
-                        case 4:
-                            System.out.println("Restaurando version anterior");
+
+                        case 4: // Restaurar versión de un documento
+                            System.out.println("Restaurando version anterior...");
 
                             // Verificar si existen documentos
                             if(userActivo.getListaDocumentos().size() == 0){
@@ -289,30 +288,27 @@ public class Principal {
                             // Mostrar lista de documentos
                             System.out.println("Que documento deseas restaurar?");
                             userActivo.printNombresDocumentos(1);
+                            System.out.print(">>> ");
 
                             // Obtener documento
-                            Scanner leerDocRestaurar = new Scanner(System.in);
-                            int doc4 = leerDocRestaurar.nextInt();
+                            //Scanner leerDocRestaurar = new Scanner(System.in);
+                            int doc4 = leerEntrada.nextInt();
                             Documento actual = userActivo.getListaDocumentos().get(doc4);
 
                             // Verificar si el documento se puede restaurar
                             if(actual.puedeRestaurar()){
-                                System.out.println("El documento es restaurable");
-
                                 // Verificar si es creador del documento
-                                System.out.println("Nombre de usuario activo: " + userActivo.getNombre());
                                 if(actual.puedeCompartir(userActivo.getNombre())){
-                                    System.out.println("Usted es el creador del documento");
+                                    System.out.println("Cambios hechos.");
                                     sistema.buscarUsuario(nombSesionActiva).restoreVersion(actual.getId());
-                                    break;
                                 }else{
-                                    System.out.println("Usted no es el creador del documento");
+                                    System.out.println("Error, usted no es el creador del documento");
                                 }
 
                             }else{
-                                System.out.println("El documento no es restaurable");
-                                break;
+                                System.out.println("Error, el documento no es restaurable");
                             }
+
                             break;
                         // Revocar acceso a un documento
                         case 5:
@@ -378,7 +374,7 @@ public class Principal {
                             break;
                         // Cerrar el programa
                         case 9:
-                            System.out.println("Cerrando el editor");
+                            System.out.println("Cerrando el editor...");
                             encendido = false;
                             return;
                     }
@@ -389,34 +385,20 @@ public class Principal {
                 // Quiere registrarse
                 System.out.println("Registrando en la plataforma...");
                 Scanner string = new Scanner(System.in);
-                System.out.println("Ingrese el nombre de usuario");
+                System.out.print("Ingrese el nombre de usuario: ");
                 String nombreUsuario = string.nextLine();
-                System.out.println("Ingrese la password");
+                System.out.print("Ingrese la password: ");
                 String password = string.nextLine();
 
                 // Hacer el registro
                 sistema.register(nombreUsuario, password);
-            }else if(respuesta == 3){
-                // Visualizar el sistema desde fuera (sin iniciar sesión)
+            }else if(respuesta == 3){ // Visualizar el sistema desde fuera (sin iniciar sesión)
                 sistema.imprimirEditor(sistema.editorGeneralToString());
-            }
-
-
-
-            else if(respuesta == 4){
+            }else if(respuesta == 4){ // Quiere cerrar el programa
                 System.out.println("Cerrando programa...");
-                // Quiere cerrar el programa
                 encendido = false;
-                
             }
-
         }
-
-
-
-
-
-
         System.out.println("Ejecucion finalizada");
     }
 }

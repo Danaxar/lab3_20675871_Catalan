@@ -1,7 +1,11 @@
 package tdas;
 
 import java.util.ArrayList;
-
+/**
+ * Clase que representa el sistema que almacena y administra todos los documentos y las interacciones con el usuario
+ * @version 11, 22/01/21
+ * @autor Daniel Catalán
+ * @see Usuario*/
 public class Editor {
     private String nombre;  // Nombre del editor
     private Fecha date;
@@ -10,9 +14,11 @@ public class Editor {
     private ArrayList<Usuario> listaUsuarios;
 
 
-
-
     // Constructor
+
+    /**
+     * Construye el objeto Editor
+     */
     public Editor() {
         this.sesionActiva = "";
         this.sesionIniciada = false;
@@ -20,6 +26,11 @@ public class Editor {
     }
 
     // Getters
+
+    /**
+     * Los siguientes métodos retornan el atributo del objeto instanciado
+     */
+
     public String getNombre() {
         return nombre;
     }
@@ -41,6 +52,10 @@ public class Editor {
     }
 
     // Setters
+    /**
+     * los siguientes métodos modifican el valor de los atributos del objeto instanciado
+     * */
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -54,8 +69,11 @@ public class Editor {
     }
 
     // Otros
-    // Verificar si existe un usuario en la plataforma (por nombre)
-    // Los nombres deben ser únicos
+    /**
+     * Verificar si existe un usuario en la plataforma (por nombre)
+     * Los nombres deben ser únicos
+     * @param nombre es el nombre del usuario que se quiere consultar si existe en la plataforma
+     */
     public boolean existeUsuario(String nombre){
         int n = this.listaUsuarios.size();
         for(int i = 0; i < n; i++){
@@ -69,6 +87,11 @@ public class Editor {
         return false;
     }
 
+    /**
+     * Busca un usuario dado un nombre y retorna el objeto usuario encontrado
+     * @param nombre es el nombre del usuario que se quiere buscar
+     * @return Usuario retorna un objeto de tipo Usuario
+     */
     public Usuario buscarUsuario(String nombre){
         int n = this.listaUsuarios.size();
         for(int i = 0; i < n; i++){
@@ -82,46 +105,35 @@ public class Editor {
         return null;
     }
 
-    // Iniciar sesión
+    /**
+     * Inicia sesión en la plataforma, marcando como true la verificación de que la sesión está iniciada
+     * y agregando su nombre como atributo del nombre de usuario que ha iniciado sesión
+     * @param nombre nombre de usuario que quiere entrar en el editor
+     * @param pass contraseña del usuario que quiere entrar en el editor
+     */
     public void iniciarSesion(String nombre, String pass){
         Usuario encontrado = this.buscarUsuario(nombre);
         if(encontrado != null && encontrado.getPassword().equals(pass)){
-            System.out.println("Inicio de sesion exitoso");
+            System.out.println("\nInicio de sesion exitoso!\n");
             this.sesionActiva = nombre;
             this.sesionIniciada = true;
         }else{
-            System.out.println("Inicio de sesion fallido");
+            System.out.println("\nInicio de sesion fallido\n");
         }
     }
 
+    /**
+     * Cierra cesión en la plataforma quitando el nombre del usuario y marcando el verificador como falso
+     */
     public void cerrarSesion(){
         this.sesionActiva = "";
         this.sesionIniciada = false;
     }
 
-    // Buscar el id más alto de usuario
-    public int getMaxUserId(){
-        int n = this.listaUsuarios.size();
-        int max = 0;
-        // Recorrer lista de usuarios
-        for(int i = 0; i < n; i++){
-            int idActual = this.listaUsuarios.get(i).getId();
-            if(idActual >= max){
-                max = idActual;
-            }
-        }
-        return max;
-    }
-
-    // Imprimir la los nombres de los usuarios registrados
-    public void printListaUsuarios(){
-        int n = this.listaUsuarios.size();
-        for(int i = 0; i < n; i++){
-            Usuario actual = this.listaUsuarios.get(i);
-            System.out.println("\t" + actual.getNombre());
-        }
-        return;
-    }
+    /**
+     * Retorna la información de todos los usuarios en un string
+     * @return Devuelve la info en string
+     */
 
     public String listaUsuariosToString(){
         String salida = "";
@@ -132,13 +144,15 @@ public class Editor {
             salida += listaUsuarios.get(i).getNombre();  // Obtener el nombre
             salida += "\n";
         }
-
         return salida;
     }
 
 
-
-    // Registrar a un usuario
+    /**
+     * Registrar a un usuario en la plataforma
+     * @param nombre nombre del usuario que se quiere registrar
+     * @param pass clave del usuario que se quiere registrar
+     */
     public void register(String nombre, String pass){
         // Verificar que no exista el nombre
         if(this.existeUsuario(nombre)){
@@ -152,7 +166,10 @@ public class Editor {
         this.listaUsuarios.add(nuevoUsuario);
     }
 
-
+    /**
+     * Retorna en string toda la info del editor desde la vista del usuario
+     * @return Información en string
+     */
     public String editorUsuarioToString(){
         String salida = "";
         salida = salida.concat(this.nombre + "\n" + "Fecha: " + this.date.formatearFecha() + "\n");
@@ -169,6 +186,10 @@ public class Editor {
         return salida;
     }
 
+    /**
+     * Retorna en string toda la info del editor de todos los usuarios
+     * @return Información en string
+     */
     public String editorGeneralToString(){
         String salida = "";
         salida = salida.concat(this.nombre + "\n" + "Fecha: " + this.date.formatearFecha() + "\n");
@@ -186,6 +207,10 @@ public class Editor {
         return salida;
     }
 
+    /**
+     * Imprime por pantalla la info del sistema en string
+     * @param info información del editor que tiene que ser mostrada por pantalla con formato
+     */
     public void imprimirEditor(String info){
         System.out.println(info);
     }

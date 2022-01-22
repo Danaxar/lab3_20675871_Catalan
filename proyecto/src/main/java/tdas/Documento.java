@@ -2,6 +2,11 @@ package tdas;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa el objeto documento
+ * @autor Daniel Catalán
+ * @version java 11
+ */
 public class Documento {
     // Atributos
     private int id; 
@@ -17,11 +22,23 @@ public class Documento {
 
 
     // Activar clase documento
+
+    /**
+     * Inicializa la clase objeto para que tenga un contador desde 0
+     */
     public static void activarClaseDoc(){
         Documento.contador = 0;
     }
 
     // Crear un documento nuevo
+
+    /**
+     * Constructor de la clase documento
+     * @param nombre nombre del docoumento
+     * @param contenido contenido del documento
+     * @param fechaCreacion fecha de creación del documento
+     * @param creador nombre del creador del documento
+     */
     public Documento(String nombre, String contenido, Fecha fechaCreacion, String creador) {
         this.id = Documento.contador + 1;   // Id
         Documento.contador++;
@@ -38,6 +55,11 @@ public class Documento {
     }
 
     // Copiar un documento
+
+    /**
+     * Constructor que se utiliza para copiar la información de un objeto a otro
+     * @param x objeto documento
+     */
     public Documento(Documento x){
         this.id = x.getId();
         this.nombre = x.getNombre();
@@ -51,6 +73,11 @@ public class Documento {
     }
 
     // Getters
+
+    /**
+     * Getters de la clase objeto, retornan los atributos del objeto instanciado
+     */
+
     public int getId() {
         return id;
     }
@@ -88,24 +115,17 @@ public class Documento {
     }
 
     // setters
+
+    /**
+     * Setters de la clase objeto, cambian los atributos del objeto instanciado
+     */
+
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public void setContenido(String contenido) {
         this.contenido = contenido;
-    }
-
-    public void setFechaCreacion(Fecha fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public void setFechaModificacion(Fecha fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
     }
 
     public void setListaAccesos(ArrayList<Acceso> listaAccesos) {
@@ -120,26 +140,21 @@ public class Documento {
         this.esVersionActiva = esVersionActiva;
     }
 
+
     // Otros
-    /*
-    public Documento agregarTexto(){
-        Documento salida = new Documento(getId(this),
-                getNombre(this),
-                )
-    }
-    */
 
-    public void printDocumento(){
-        System.out.println("Nombre: " + this.nombre + "ID: " +
-                Integer.toString(this.id) +  "\n\n" + this.contenido +
-                "\n\n" );
-    }
-
+    /**
+     * Agrega un acceso a un documento
+     * @param x objeto acceso
+     */
     public void agregarAcceso(Acceso x){
         this.listaAccesos.add(x);
     }
 
-
+    /**
+     * Transforma la información de un documento a string
+     * @return String con la información del documento
+     */
     public String toString(){
         String salida = "Documento:\n\tNombre: ";
         salida += this.getNombre() + "\n\tCreador: ";
@@ -169,6 +184,13 @@ public class Documento {
 
     }
 
+    /**
+     * Método que verifica si el nombre de una persona sobre el documento instanciado tiene permisos para compartir
+     * @param nombre nombre de usuario que desea compartir
+     * @return booleano de respuesta a la pregunta
+     * true en caso de que la persona pueda compartir
+     * false en caso de que la persona no puede compartir
+     */
     public boolean puedeCompartir(String nombre){
         if(this.creador.equals(nombre)){
             return true;
@@ -176,6 +198,12 @@ public class Documento {
         return false;
     }
 
+    /**
+     * Método que verifica si el documento instanciado se puede restaurar a una versión anterior o no
+     * @return booleano con respuesta a la pregunta
+     * true en caso de que el documento se puede restaurar 1 versión atrás
+     * false en caso de que el objeto no se puede restaurar 1 versión atrás (está en su versión inicial)
+     */
     public boolean puedeRestaurar(){
         if(this.id == -1){
             return false;
@@ -183,6 +211,14 @@ public class Documento {
         return true;
     }
 
+    /**
+     * Método que verificac si el texto pasado por parámetro está contenido dentro del contenido del documento
+     * instanciado
+     * @param texto texto que se desea buscar dentro del contenido del documento
+     * @return booleano de respuesta a la pregunta
+     * true en caso de que el texto está contenido dentro del contenido del documento
+     * false en caso contrario
+     */
     public boolean contieneTexto(String texto){
         return this.contenido.contains(texto);
     }
