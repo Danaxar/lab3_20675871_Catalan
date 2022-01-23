@@ -1,6 +1,5 @@
 import tdas.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Principal {
 
-    // Funciones de interacción con el programa
+    // Funciones/métodos de interacción con el programa
     public static int mostrarOpcionesInicio(){
         System.out.print("Que desea hacer? (Ingrese el numero de su opcion)\n" +
                 "\t1. Iniciar Sesion\n" +
@@ -32,7 +31,6 @@ public class Principal {
 
 
     public static int mostrarOpcionesSistema() {
-        // ###Mostrar por pantalla el nombre de usuario logueado
 
         System.out.print("\nQue desea hacer? (Ingrese el numero de su opcion)\n" +
                 "\t1. Crear nuevo documento\n" +
@@ -52,7 +50,7 @@ public class Principal {
 
 
         if(respuesta_out < 1 && respuesta_out > 9){
-            System.out.println("Respuesta inválida, por favor ingrese 1. o 2. según su preferencia.");
+            System.out.println("Respuesta inválida, por favor ingrese numeros entre 1 y 9 según su preferencia.");
             return mostrarOpcionesSistema();
         }
         // Si la entrada es correcta se retorna la elección
@@ -69,7 +67,7 @@ public class Principal {
         System.out.println("Ejecucion iniciada");
         Scanner leerEntrada = new Scanner(System.in);
 
-        // Inicializar clases para los contadores (atributos static)
+        // Inicializar clases para los contadores (atributos static contadores)
         Usuario.iniciarClaseUsuario();
         Documento.activarClaseDoc();
 
@@ -128,10 +126,10 @@ public class Principal {
                         sistema.getDate(), "Daniel");
         sistema.buscarUsuario("Daniel").
                 crearDocumento("Notas eda","7 7 7 7 7 7",
-                        sistema.getDate(), "Daniel"); // Ojala fuera cierto :')
+                        sistema.getDate(), "Daniel"); // Ojalá fuera cierto :')
 
 
-        // Inicio del programa
+        ////////////////////////////////////// Inicio del programa ////////////////////////////////////////////////////
         boolean encendido = true;
         while(encendido){
             // Pantalla externa (Login - Register - Visualizar y Cerrar programa)
@@ -156,7 +154,7 @@ public class Principal {
                     // Mostrar opciones y recibir respuesta del usuario
                     int opcionSistema = mostrarOpcionesSistema();
 
-                    // Variables reutilizadas constantemente para disminuir sintaxis
+                    // Variables reutilizadas constantemente (para disminuir sintaxis)
                     Fecha fechaSis = sistema.getDate();
                     String nombSesionActiva = sistema.getSesionActiva();
                     Usuario userActivo = sistema.buscarUsuario(nombSesionActiva);
@@ -385,9 +383,9 @@ public class Principal {
                 // Quiere registrarse
                 System.out.println("Registrando en la plataforma...");
                 Scanner string = new Scanner(System.in);
-                System.out.print("Ingrese el nombre de usuario: ");
+                System.out.print("Ingrese un nombre de usuario: ");
                 String nombreUsuario = string.nextLine();
-                System.out.print("Ingrese la password: ");
+                System.out.print("Ingrese una clave: ");
                 String password = string.nextLine();
 
                 // Hacer el registro
