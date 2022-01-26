@@ -11,7 +11,10 @@
 .mtj.tmp/
 
 # Package Files #
+<<<<<<< HEAD
 lab3_20675871_DanielCatalan-1.0-SNAPSHOT.jar
+=======
+>>>>>>> fcd8a23e61a18e4a9ca8e470d00c2fbf4cf00cd3
 *.war
 *.nar
 *.ear
